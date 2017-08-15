@@ -90,16 +90,25 @@ function inTweets () {
   var params = {screen_name: 'Liri_Synth'};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      for(var i = 0; i < tweets.length; i++){
-        console.log(tweets[i].created_at);
+      for(var i = 0; i < tweets.length && i < 20; i++){
+        console.log("Tweet #: " + (i + 1));
+        console.log((tweets[i].created_at).slice(0,19) + (tweets[i].created_at).slice(25,30));
         console.log(tweets[i].text);
+        console.log("~~~~~~~~~~~~~~~~~~~~~");
+
+        fs.appendFile('./log.txt', "Tweet #: " + (i + 1) + '\n');
+        fs.appendFile('./log.txt', (tweets[i].created_at).slice(0,19) + (tweets[i].created_at).slice(25,30) + '\n');
+        fs.appendFile('./log.txt', tweets[i].text + '\n');
+        fs.appendFile('./log.txt', "~~~~~~~~~~~~~~~~~~~~~"  + '\n');
+
+
 
       }
     }else{
       console.log(error);
     }
   });
-};
+}
 
 //~~~~~~~~~~~~~~~~~~~~~spotify function~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function inSpotify(index3) {
@@ -113,6 +122,12 @@ function inSpotify(index3) {
       console.log("Song Name: " + data.tracks.items[0].name);
       console.log("Preview Link: " + data.tracks.items[0].preview_url);
       console.log("Album: " + data.tracks.items[0].album.name);
+
+      fs.appendFile('./log.txt', index2 + " " + index3 + '\n');
+      fs.appendFile('./log.txt', "Artist Name: "+ data.tracks.items[0].artists[0].name + '\n');
+      fs.appendFile('./log.txt', "Song Name: " + data.tracks.items[0].name + '\n');
+      fs.appendFile('./log.txt', "Preview Link: " + data.tracks.items[0].preview_url + '\n');
+      fs.appendFile('./log.txt', "Album: " + data.tracks.items[0].album.name + '\n');
     }
   });
 }
@@ -138,6 +153,19 @@ function inMovie(index3){
       for(var i = 0; i < body.Ratings.length; i++){
         if(body.Ratings[i].Source == "Rotten Tomatoes"){
           console.log("Rotten Tomatoes Rating: "+body.Ratings[i].Value);
+        }
+      }
+      fs.appendFile('./log.txt', "Title: " + body.Title + '\n');
+      fs.appendFile('./log.txt', "Release Year: " + body.Year + '\n');
+      fs.appendFile('./log.txt', "IMdB Rating: " + body.imdbRating + '\n');
+      fs.appendFile('./log.txt', "Country: " + body.Country + '\n');
+      fs.appendFile('./log.txt', "Language: " + body.Language + '\n');
+      fs.appendFile('./log.txt', "Plot: " + body.Plot + '\n');
+      fs.appendFile('./log.txt', "Actors: " + body.Actors + '\n');
+
+      for(var i = 0; i < body.Ratings.length; i++){
+        if(body.Ratings[i].Source == "Rotten Tomatoes"){
+          fs.appendFile('./log.txt', "Rotten Tomatoes Rating: "+body.Ratings[i].Value + '\n');
         }
       }
 
@@ -181,3 +209,4 @@ function inWhatItSays() {
 }
 
 //~~~~~~~~~~~~~~~~~~~~~Bonus: data log function~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~Per function~~~~~~~~~~~~~~~~
